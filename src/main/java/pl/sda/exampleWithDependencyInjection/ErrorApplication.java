@@ -1,15 +1,15 @@
-package pl.sda.customers;
+package pl.sda.exampleWithDependencyInjection;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class CustomersApplication {
+public class ErrorApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CustomersApplication.class, args);
+        SpringApplication.run(ErrorApplication.class, args);
 
 
     }
-
 }
+

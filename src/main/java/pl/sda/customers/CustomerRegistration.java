@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomerRegistration {
 
-//    @Autowired -raczej używany w testach, nie zalecane/rekomendowane w kodzie, w klasach tworzymy konstruktor (ten wykomentowany)
+//    @Autowired -raczej używany w testach, nie zalecane/rekomendowane w kodzie, w klasach tworzymy konstruktor
     private final CustomerRepository repository;
 
 
