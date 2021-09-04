@@ -12,6 +12,6 @@ public BeanB beanB;
     }
 
     public void beanA(BeanB beanB){
-        System.out.println("Injection B to A");
+        System.out.println("Injection B to A" + beanB);
     }
 }

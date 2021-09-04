@@ -13,6 +13,6 @@ public class BeanB {
     }
 
     public void beanB(BeanC beanC) {
-        System.out.println("Injection to C to B");
+        System.out.println("Injection to C to B" + beanC);
     }
 }
