@@ -20,6 +20,20 @@ class CustomerTest extends EntityTest {
 
     }
 
+    @Test
+    void shouldSavePersonToDb(){
+
+        //Given
+        final var person = new Person("aa@wp.pl", "Jan", "Kowalski", "99042311256L");
+
+        //When
+        persist(person);
+
+        //Then
+        final var readPerson = em.find(Person.class, person.getId());
+        assertEquals(person, readPerson);
+    }
+
 
 
 

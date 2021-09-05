@@ -11,8 +11,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "customers")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-//strategia pojegająca na tym, że w jednej tabeli mamy różne implementacje
-// klasy abstrakcyjnej, Hibernate dodaje kolumnę odnośnie typu implementowanego obiektu
+//strategia pojegająca na tym, że tworzona jest jedna tabela i w tej tabeli mamy różne implementacje
+// klasy abstrakcyjnej (obiekty z klas dziedziczących wrzucane do tej samej tabeli), Hibernate dodaje kolumnę w tabeli dotyczącą typu implementowanego obiektu
 @DiscriminatorColumn(name = "customer_type")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 // PROTECTED ponieważ wszystkie podklasy muszą mieć dostęp do konstruktora z
@@ -25,9 +25,9 @@ public abstract class Customer {
     private UUID id;
     private String email;
 
-    @OneToMany //mapowanie jeden do wielu
+    @OneToMany (cascade = CascadeType.ALL) // cascade oznacza ze nowe encje niezapisane jeszcze w db zapisuje do bazy danych, u nas brak adresów u klienta i dodajemy je w trakcie dodawania do db
     @JoinColumn (name = "customer_id")  // nowa kolumna w tabelce z adresami zawierająca klucze obce do łączenia z klientem, jak nie napiszemy to hibernate tworzy
-    private List<Address> addresses;    // tabele pośrednią zbędną w tym przypadku
+    private List<Address> addresses;    // domyślnie tabelę pośrednią zbędną w tym przypadku
 
     protected Customer(@NonNull String email) {
         this.id = UUID.randomUUID();
@@ -35,6 +35,11 @@ public abstract class Customer {
         this.addresses = new ArrayList<>();
     }// podobnie jak w annotacji @NoArgsConstructor
 
+    public void addAdress(Address address) {
+        if(address != null && !addresses.contains(address)){
+            addresses.add(address);
+        }
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -48,4 +53,6 @@ public abstract class Customer {
     public int hashCode() {
         return Objects.hash(id, email);
     }
+
+
 }

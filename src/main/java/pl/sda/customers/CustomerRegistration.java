@@ -1,19 +1,18 @@
 package pl.sda.customers;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerRegistration {
 
 //    @Autowired -raczej używany w testach, nie zalecane/rekomendowane w kodzie, w klasach tworzymy konstruktor
-    private final CustomerRepository repository;
+    private final CustomerDatabase repository;
 
 
     //    @Autowired - nie jest wymagane, dodatkowo nie może być kilku konstruktorów
     //    bo Spring sobie nie poradzi, chyba że mamy adnotacje @Autowired przy jednym z nich
-    public CustomerRegistration(CustomerRepository repository) {
+    public CustomerRegistration(CustomerDatabase repository) {
         this.repository = repository;
     }
 

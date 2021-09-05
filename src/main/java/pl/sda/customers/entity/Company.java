@@ -1,6 +1,7 @@
 package pl.sda.customers.entity;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
@@ -11,6 +12,7 @@ import java.util.Objects;
 @Entity
 @DiscriminatorValue("COMPANY") // ustalamy wartość jaka powinna się znaleźć sie w kolumnie po której będziemy rozróżniać firmę od klienta
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class Company extends Customer {
 
     private String name;
