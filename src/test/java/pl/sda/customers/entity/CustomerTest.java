@@ -1,36 +1,27 @@
 package pl.sda.customers.entity;
-
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
-import javax.persistence.EntityManager;
-import javax.swing.text.html.parser.Entity;
-import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
-class CustomerTest {
 
-    @Autowired
-    private EntityManager entityManager;
+class CustomerTest extends EntityTest {
 
     @Test
-    @Transactional
-    void shouldAddCustomerToDb(){
+    void shouldSaveCompany(){
         //Given
-        final var customer = new Customer("aaa@wp.pl", "Adam", "Terminator", 668115526);
+        final var company = new Company("j@wp.pl", "Comp S.A.", "PL920020222");
 
         //When
-        entityManager.persist(customer);
-        entityManager.flush();
-        entityManager.clear();
+        persist(company);
 
         //Then
-        final var readCustomer = entityManager.find(Customer.class, customer.getId());
-        assertEquals(customer, readCustomer);
+        final var readCompany = em.find(Company.class, company.getId());
+        assertEquals(company, readCompany);
 
     }
+
+
+
+
 
 }
