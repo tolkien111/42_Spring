@@ -10,13 +10,13 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "customers")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 //strategia pojegająca na tym, że tworzona jest jedna tabela i w tej tabeli mamy różne implementacje
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 // klasy abstrakcyjnej (obiekty z klas dziedziczących wrzucane do tej samej tabeli), Hibernate dodaje kolumnę w tabeli dotyczącą typu implementowanego obiektu
 @DiscriminatorColumn(name = "customer_type")
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 // PROTECTED ponieważ wszystkie podklasy muszą mieć dostęp do konstruktora z
-    // klasy abstrakcyjnej, natomiast inne klasy nie mają dostępu do tego konstruktora
+// klasy abstrakcyjnej, natomiast inne klasy nie mają dostępu do tego konstruktora
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 
 public abstract class Customer {
