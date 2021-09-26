@@ -1,4 +1,4 @@
-package pl.sda.exampleWithDependencyInjection;
+package pl.sda.examplewithdependencyinjection;
 
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,7 @@
 package pl.sda.customers.entity;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> { // J
     //inner join addresses a on a.customers_id = c.id
     // where upper(a.city) = upper(?1)
     @Query("FROM Customer c INNER JOIN c.addresses a WHERE UPPER(a.city) = UPPER(:city) ")
-    //można używać np. :city zamiast ?1
+    //można używać np. :city zamiast ?1, :city to nazwa parametru z metody
     List<Customer> findCustomersInCity(String city);
 
 
@@ -45,21 +46,24 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> { // J
     @Query("SELECT a.city, count (c) FROM Customer c INNER JOIN c.addresses a GROUP BY a.city ORDER BY a.city ASC")
     List<Object[]> countCustomerByCity(); //lista z tabelami obiektów
     // jak wygląda lista z tabelami obiektów
-    // Warszawa     |   2
-    // Kraków      |   3
+    // Warszawa    |   2    = row[0] ---> Object[0] = Kraków, Object[1] = 3L
+    // Kraków      |   3    = row[1] ---> Object[1] = Warszawam Objekt[1] =2L
 
 
     //II Metoda (na wyciągnięcie czegoś) dla poprzedniego Query
     //WAŻNE - musimy użyć aliasów w Query np. as countryCode które są w interface jako metody(z przedrostkiem get...) aby hibernate wiedział w jaki sposób ma zaimplementować interface
+    //Rozwiązanie typowo ze SPRING DATA
     @Query("SELECT a.countryCode as countryCode, count (c) as count FROM Customer c " +
             "INNER JOIN c.addresses a " +
             "GROUP BY a.city " +
             "ORDER BY a.countryCode ASC")
     List<CustomerCountByCountryCode> countCustomerByCountryCode();
 
+
+
+
     interface CustomerCountByCountryCode {
         String getCountryCode();
-
         int getCount();
     }
 
@@ -71,5 +75,25 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> { // J
     //IV Metoda (na wyciągnięcie czegoś) z poprzedniego query
     @Query("FROM PersonView v WHERE UPPER (v.email) LIKE UPPER(?1)")
     List<PersonView> findPersonViewByEmail(String email);
+
+    // do testu shouldUpdateCountryCodeForCity
+    @Modifying // dodajemy ponieważ nawet jak mamy UPDATE w Query to zachowuje się jak Select
+    @Query("UPDATE Address SET countryCode = :countryCode WHERE city = :city")
+    int updateCountryCodeForCity(String city, String countryCode);
+
+    @Query("SELECT count(a) FROM Address a where a.city = :city and a.countryCode = :countryCode")
+    int countCityWithCountryCode(String city, String countryCode);
+
+    @Query ("FROM Address a WHERE a.city = :city")
+    List<Address> findByCity(String city);
+
+
+    @Modifying
+    @Query ("DELETE FROM Address a WHERE a.zipCode LIKE :zipCode")
+    int deleteAddressesWithZipCode(String zipCode);
+
+    @Query("SELECT count(a) FROM Address a")
+    int countAddressesAfterDelete();
+
 
 }

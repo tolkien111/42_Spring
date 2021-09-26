@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import java.util.Arrays;
@@ -17,6 +18,9 @@ class CustomerRepositoryTest {
 
     @Autowired
     private CustomerRepository repository;
+
+    @Autowired
+    private EntityManager em;
 
     @Test
     void schouldSave() {
@@ -204,7 +208,7 @@ class CustomerRepositoryTest {
     }
 
     @Test
-    void shouldCountCustomersInCountry() {
+    void shouldCountCustomersInCountry() { //II Metoda do wyciągania informacji z Query
 
         // Given
         final var customer1 = new Person("fd@gmail.com", "Jerzy", "Nowak", "98020275653");
@@ -236,7 +240,9 @@ class CustomerRepositoryTest {
 
     }
 
-    @Test // znajdź firmy gdzie zipCode zaczyna się od 2 takich samych cyfr
+    @Test   // znajdź firmy gdzie zipCode zaczyna się od 2 takich samych cyfr
+            // III Metoda (na wyciągnięcie czegoś) dla poprzedniego Query
+
     void shouldFindCompaniesWithZipCode() {
 
         // Given
@@ -282,6 +288,62 @@ class CustomerRepositoryTest {
                 new PersonView(customer2.getId(),customer2.getEmail(), customer2.getPesel()),
                 new PersonView(customer3.getId(),customer3.getEmail(), customer3.getPesel())
                 ).containsAll(result));
+    }
+
+    @Test
+    void shouldUpdateCountryCodeForCity(){ //zamiana countryCode na inny, sposób optymalny
+
+        // Given
+        final var customer1 = new Company("adam@wp.pl", "Adam Company", "95528412244");
+        final var customer2 = new Company("d@WP.pl", "Jasuś S.A", "97045295653");
+        final var customer3 = new Company("klekot@WP.pl", "Bocian Pożyczki", "97045295653");
+        final var customer4 = new Company("rolex@wp.pl", "Uhr GmbH", "98771163654");
+
+        customer1.addAdress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "DE"));
+        customer2.addAdress(new Address("Tadeusza", "Warszawa", "08-333", "DE"));
+        customer3.addAdress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
+        customer4.addAdress(new Address("Gerard", "Hannover", "08885", "DE"));
+
+        repository.saveAllAndFlush(List.of(customer1, customer2, customer3, customer4));
+
+        //When
+
+        final int result = repository.updateCountryCodeForCity("Warszawa", "PL");
+        em.clear(); // clear cache
+
+        //Then
+        assertEquals(2, result);
+        assertEquals(0, repository.countCityWithCountryCode("Warszawa", "DE"));
+
+        final var addresses = repository.findByCity("Warszawa");
+        assertEquals(2, addresses.size());
+        addresses.forEach(address -> assertEquals("PL", address.getCountryCode()));
+    }
+
+    @Test
+    void shouldDeleteAllAddressesWithZipCode() {
+        // Given - przygotowanie danych testowych
+
+        final var customer1 = new Company("adam@wp.pl", "Adam Company", "95528412244");
+        final var customer2 = new Company("d@WP.pl", "Jasuś S.A", "97045295653");
+        final var customer3 = new Company("klekot@WP.pl", "Bocian Pożyczki", "97045295653");
+        final var customer4 = new Company("rolex@wp.pl", "Uhr GmbH", "98771163654");
+
+        customer1.addAdress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "DE"));
+        customer2.addAdress(new Address("Tadeusza", "Warszawa", "08-333", "DE"));
+        customer3.addAdress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
+        customer4.addAdress(new Address("Gerard", "Hannover", "08885", "DE"));
+
+        repository.saveAllAndFlush(List.of(customer1, customer2, customer3, customer4));
+
+        // When - usuwanie adresów o danym zipCode
+
+        final int result = repository.deleteAddressesWithZipCode("08%");
+        //em.clear();
+
+        // Then - weryfikacja wyników
+        assertEquals(3,result);
+        assertEquals(1, repository.countAddressesAfterDelete());
     }
 
 

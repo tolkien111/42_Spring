@@ -1,4 +1,4 @@
-package pl.sda.exampleWithDependencyInjection;
+package pl.sda.examplewithdependencyinjection;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
