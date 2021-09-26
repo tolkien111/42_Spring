@@ -59,9 +59,6 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> { // J
             "ORDER BY a.countryCode ASC")
     List<CustomerCountByCountryCode> countCustomerByCountryCode();
 
-
-
-
     interface CustomerCountByCountryCode {
         String getCountryCode();
         int getCount();
@@ -94,6 +91,22 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> { // J
 
     @Query("SELECT count(a) FROM Address a")
     int countAddressesAfterDelete();
+
+
+
+    /**
+     od dnia 26.09.2021, lekcja 5 ze Stringa - SERVICE, DTO ...*/
+
+    @Query ("SELECT (count(c) > 0) FROM Customer c WHERE UPPER(c.email) = UPPER(?1)") // problem z InteliJ jak nie zastosujemy () przy count(c) > 0
+    boolean emailExists(String email);
+
+    @Query ("SELECT (count(c) > 0) FROM Company c WHERE(c.vat) = (?1)")
+    boolean vatExists(String vat);
+
+    @Query ("SELECT (count(p) > 0 ) FROM Person p WHERE p.pesel = ?1")
+    boolean peselExist(String pesel);
+
+
 
 
 }
