@@ -1,4 +1,4 @@
-package pl.sda.customers;
+package pl.sda.customers.demo;
 
 import org.springframework.stereotype.Component;
 
