@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 @Service // usługa/serwis, mówi nam czym ta klasa jest
 @Transactional
 @RequiredArgsConstructor
-public class CustomerService {
+public class CustomerRegistrationService {
 
     @NonNull
     private final CustomerRepository repository;
@@ -31,7 +31,7 @@ public class CustomerService {
 
 
     //ZOSTALO założone że nieważne czy email się powtarza w Company czy Person, sprawdza maile z obu zbiorów
-    public RegisteredCustomerId registerCompany (@NonNull RegisterCompanyForm form) {
+    public RegisteredCustomerId registerCompany(@NonNull RegisterCompanyForm form) {
         if (repository.emailExists(form.getEmail())) {
             throw new EmailAlreadyExistException("email exists: " + form.getEmail());
         }
@@ -43,19 +43,17 @@ public class CustomerService {
         return new RegisteredCustomerId(company.getId());
     }
 
-    public RegisteredCustomerId registerPerson (@NonNull RegisterPersonForm form){
+    public RegisteredCustomerId registerPerson(@NonNull RegisterPersonForm form) {
         if (repository.emailExists(form.getEmail())) {
             throw new EmailAlreadyExistException("email exists: " + form.getEmail());
         }
-        if (repository.peselExist(form.getPesel())){
+        if (repository.peselExist(form.getPesel())) {
             throw new PeselAlreadyExistException("pesel exists: " + form.getPesel());
         }
-        final var person = new Person(form.getEmail(),
-                form.getFirstName(),
-                form.getLastName(),
-                form.getPesel());
+        final var person = Person.createWith(form); // inna forma stworzenia obiektu person z wyniesieniem do klasy Person metody statycznej
         repository.save(person);
         return new RegisteredCustomerId(person.getId());
     }
+
 
 }

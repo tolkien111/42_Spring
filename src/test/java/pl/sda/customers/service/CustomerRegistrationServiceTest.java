@@ -19,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional // dodajemy aby testy były traktowane jako transakcje i aby wycofać zmiany z bazy danych po wykonaniu testu -> rolled back
-class CustomerServiceTest {
+class CustomerRegistrationServiceTest {
 
     @Autowired
-    private  CustomerService service;
+    private CustomerRegistrationService service;
 
     @Autowired
     private CustomerRepository repository;
@@ -39,7 +39,7 @@ class CustomerServiceTest {
 
         //Then
         assertNotNull(customerId);
-        assertNotNull(repository.existsById(customerId.getId()));
+        assertTrue(repository.existsById(customerId.getId()));
 
     }
 
@@ -76,7 +76,7 @@ class CustomerServiceTest {
         final var personId = service.registerPerson(person);
         //Then
         assertNotNull(personId);
-        assertNotNull((repository.existsById(personId.getId())));
+        assertTrue((repository.existsById(personId.getId())));
     }
 
     @Test

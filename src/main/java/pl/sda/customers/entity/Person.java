@@ -5,6 +5,8 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import pl.sda.customers.service.dto.RegisterCompanyForm;
+import pl.sda.customers.service.dto.RegisterPersonForm;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -27,6 +29,13 @@ public class Person extends Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.pesel = pesel;
+    }
+
+    public static Person createWith (RegisterPersonForm form){
+        return new Person (form.getEmail(),
+                form.getFirstName(),
+                form.getLastName(),
+                form.getPesel());
     }
 
     @Override
