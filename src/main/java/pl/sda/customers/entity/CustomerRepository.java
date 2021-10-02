@@ -97,7 +97,7 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> { // J
     /**
      od dnia 26.09.2021, lekcja 5 ze Stringa - SERVICE, DTO ...*/
 
-    @Query ("SELECT (count(c) > 0) FROM Customer c WHERE UPPER(c.email) = UPPER(?1)") // problem z InteliJ jak nie zastosujemy () przy count(c) > 0
+    @Query ("SELECT (count(c) > 0) FROM Customer c WHERE UPPER(c.email) = UPPER(?1)") // problem z InteliJ jak nie zastosujemy () przy count(c) > 0 podkreśla na czerwono
     boolean emailExists(String email);
 
     @Query ("SELECT (count(c) > 0) FROM Company c WHERE(c.vat) = (?1)")

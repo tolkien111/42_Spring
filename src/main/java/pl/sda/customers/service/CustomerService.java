@@ -16,7 +16,7 @@ import pl.sda.customers.service.exception.VatAlreadyExistsException;
 
 import javax.transaction.Transactional;
 
-@Service
+@Service // usługa/serwis, mówi nam czym ta klasa jest
 @Transactional
 @RequiredArgsConstructor
 public class CustomerService {
@@ -29,6 +29,8 @@ public class CustomerService {
 //        this.repository = repository;
 //    }
 
+
+    //ZOSTALO założone że nieważne czy email się powtarza w Company czy Person, sprawdza maile z obu zbiorów
     public RegisteredCustomerId registerCompany (@NonNull RegisterCompanyForm form) {
         if (repository.emailExists(form.getEmail())) {
             throw new EmailAlreadyExistException("email exists: " + form.getEmail());
@@ -48,7 +50,10 @@ public class CustomerService {
         if (repository.peselExist(form.getPesel())){
             throw new PeselAlreadyExistException("pesel exists: " + form.getPesel());
         }
-        final var person = new Person(form.getEmail(), form.getFirstName(), form.getLastName(), form.getPesel());
+        final var person = new Person(form.getEmail(),
+                form.getFirstName(),
+                form.getLastName(),
+                form.getPesel());
         repository.save(person);
         return new RegisteredCustomerId(person.getId());
     }

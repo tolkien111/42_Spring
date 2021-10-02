@@ -3,7 +3,7 @@ package pl.sda.customers.service.dto;
 import lombok.NonNull;
 import lombok.Value;
 
-@Value // nie musimy podawać przy klasie final i polach private, adn @Value nam to sama generuje
+@Value // adn @Value załatwia nam przy klasie final i polach private, sama to generuje, generuje również gettery
 public class RegisterCompanyForm {
 
     @NonNull

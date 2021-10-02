@@ -5,9 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import pl.sda.customers.entity.Company;
 import pl.sda.customers.entity.CustomerRepository;
+import pl.sda.customers.entity.Person;
 import pl.sda.customers.service.dto.RegisterCompanyForm;
 import pl.sda.customers.service.dto.RegisterPersonForm;
 import pl.sda.customers.service.exception.EmailAlreadyExistException;
+import pl.sda.customers.service.exception.PeselAlreadyExistException;
 import pl.sda.customers.service.exception.VatAlreadyExistsException;
 
 import javax.transaction.Transactional;
@@ -60,7 +62,7 @@ class CustomerServiceTest {
         final var form = new RegisterCompanyForm("Comp S.A", "PL93554899", "xyz@wp.pl");
 
         //When & Then
-        assertThrows(VatAlreadyExistsException.class, () -> service.registerCompany(form));
+        assertThrows(VatAlreadyExistsException.class, () -> service.registerCompany(form)); // tutaj piewszy argument to klasa wyjątku jakiego się spodziewamy a druga to kod który na
     }
 
     //odnośnie Person
@@ -75,6 +77,26 @@ class CustomerServiceTest {
         //Then
         assertNotNull(personId);
         assertNotNull((repository.existsById(personId.getId())));
+    }
+
+    @Test
+    void shouldNotRegisterPersonIfEmailExist(){
+        //Given
+        repository.saveAndFlush(new Person("aaa@wp.pl", "Jarosław", "Kaczyński", "50050511258"));
+        final var form = new RegisterPersonForm("aaa@wp.pl", "Jarek", "Smoleński", "58850511258");
+
+        //When & Then
+        assertThrows(EmailAlreadyExistException.class, () -> service.registerPerson(form));
+    }
+
+    @Test
+    void shouldNotRegisterPersonIfPeselExist(){
+        //Given
+        repository.saveAndFlush(new Person("aaa@wp.pl", "Jarosław", "Kaczyński", "50050511258"));
+        final var form = new RegisterPersonForm("abc@wp.pl", "Jarek", "Smoleński", "50050511258");
+
+        //When & Then
+        assertThrows(PeselAlreadyExistException.class, () -> service.registerPerson(form));
     }
 
 
