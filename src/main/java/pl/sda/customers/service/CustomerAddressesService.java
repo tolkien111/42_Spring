@@ -28,7 +28,7 @@ public class CustomerAddressesService {
         }
         final var address = reverseGeocoding.reverse(form.getLatitude(), form.getLongitude());
         final var customer = repository.getById(form.getCustomerId());
-        customer.addAdress(address);
+        customer.addAddress(address);
         repository.save(customer);
         return new CreatedAddress(customer.getId(),
                 address.getId(),

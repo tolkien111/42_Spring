@@ -1,6 +1,7 @@
 package pl.sda.customers.entity;
 
 import lombok.*;
+import pl.sda.customers.service.dto.CustomerView;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -29,17 +30,25 @@ public abstract class Customer {
     @JoinColumn (name = "customer_id")  // nowa kolumna w tabelce z adresami zawierająca klucze obce do łączenia z klientem, jak nie napiszemy to hibernate tworzy
     private List<Address> addresses;    // domyślnie tabelę pośrednią zbędną w tym przypadku
 
+    @Column(name = "customer_type", insertable = false, updatable = false) // to pole jest tylko do odczytu poprzez insertable i updatable na false
+    @Enumerated(EnumType.STRING) // ważne aby w bazie danych ten enum oczytywany był jako string, w innym przypadku byłoby zapisane cyframi
+    private CustomerType customerType;
+
     protected Customer(@NonNull String email) {
         this.id = UUID.randomUUID();
         this.email = email;
         this.addresses = new ArrayList<>();
     }// podobnie jak w annotacji @NoArgsConstructor
 
-    public void addAdress(Address address) {
+    public void addAddress(Address address) {
         if(address != null && !addresses.contains(address)){
             addresses.add(address);
         }
     }
+
+    public abstract String getName();
+
+
 
     @Override
     public boolean equals(Object o) {

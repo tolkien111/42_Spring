@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -105,11 +104,11 @@ class CustomerRepositoryTest {
         final var customer4 = new Company("d@WP.pl", "Jarosław", "97045295653");
 
 
-        customer1.addAdress(new Address("Marszałkowska", "Wawa", "04-333", "PL"));
-        customer2.addAdress(new Address("Jarosława", "Kraków", "80-303", "PL"));
-        customer2.addAdress(new Address("Tadeusza", "Wawa", "04-333", "PL"));
-        customer3.addAdress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
-        customer4.addAdress(new Address("Mariusza", "Kraków", "80-303", "PL"));
+        customer1.addAddress(new Address("Marszałkowska", "Wawa", "04-333", "PL"));
+        customer2.addAddress(new Address("Jarosława", "Kraków", "80-303", "PL"));
+        customer2.addAddress(new Address("Tadeusza", "Wawa", "04-333", "PL"));
+        customer3.addAddress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
+        customer4.addAddress(new Address("Mariusza", "Kraków", "80-303", "PL"));
 
         repository.saveAllAndFlush(List.of(customer1, customer2, customer3, customer4));
 
@@ -129,10 +128,10 @@ class CustomerRepositoryTest {
         final var customer3 = new Company("klekot@WP.pl", "Bocian Pożyczki", "97045295653");
         final var customer4 = new Company("rolex@wp.pl", "Uhr GmbH", "98771163654");
 
-        customer1.addAdress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "PL"));
-        customer2.addAdress(new Address("Tadeusza", "Wawa", "04-333", "PL"));
-        customer3.addAdress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
-        customer4.addAdress(new Address("Gerard", "Hannover", "32885", "DE"));
+        customer1.addAddress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "PL"));
+        customer2.addAddress(new Address("Tadeusza", "Wawa", "04-333", "PL"));
+        customer3.addAddress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
+        customer4.addAddress(new Address("Gerard", "Hannover", "32885", "DE"));
 
         repository.saveAllAndFlush(List.of(customer1, customer2, customer3, customer4));
 
@@ -159,11 +158,11 @@ class CustomerRepositoryTest {
         final var address2 = new Address("Mariusza", "Wrocław", "09-222", "PL");
         final var address3 = new Address("Gerard", "Hannover", "32885", "DE");
 
-        customer1.addAdress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "PL"));
-        customer2.addAdress(address1);
-        customer2.addAdress(address2);
-        customer3.addAdress(new Address("Antoniego", "Kraków", "14-603", "PL"));
-        customer4.addAdress(address3);
+        customer1.addAddress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "PL"));
+        customer2.addAddress(address1);
+        customer2.addAddress(address2);
+        customer3.addAddress(new Address("Antoniego", "Kraków", "14-603", "PL"));
+        customer4.addAddress(address3);
 
         repository.saveAllAndFlush(List.of(customer1, customer2, customer3, customer4));
 
@@ -185,11 +184,11 @@ class CustomerRepositoryTest {
         final var customer3 = new Person("d@gmail.com", "Jarosław", "Nowakiewicz", "97045295653");
         final var customer4 = new Person("rr@gmail.com", "Jan-Maria", "Kowalski", "88045295653");
 
-        customer1.addAdress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "PL"));
-        customer2.addAdress(new Address("Tadeusza", "Kraków", "04-333", "PL"));
-        customer2.addAdress(new Address("Mariusza", "Warszawa", "09-222", "PL"));
-        customer3.addAdress(new Address("Antoniego", "Kraków", "14-603", "PL"));
-        customer4.addAdress(new Address("Gerard", "Kraków", "32885", "PL"));
+        customer1.addAddress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "PL"));
+        customer2.addAddress(new Address("Tadeusza", "Kraków", "04-333", "PL"));
+        customer2.addAddress(new Address("Mariusza", "Warszawa", "09-222", "PL"));
+        customer3.addAddress(new Address("Antoniego", "Kraków", "14-603", "PL"));
+        customer4.addAddress(new Address("Gerard", "Kraków", "32885", "PL"));
 
         repository.saveAllAndFlush(List.of(customer1, customer2, customer3, customer4));
 
@@ -216,11 +215,11 @@ class CustomerRepositoryTest {
         final var customer3 = new Person("d@gmail.com", "Jarosław", "Nowakiewicz", "97045295653");
         final var customer4 = new Person("rr@gmail.com", "Jan-Maria", "Kowalski", "88045295653");
 
-        customer1.addAdress(new Address("Aleje Jerozolimskie", "Berlin", "08-200", "DE"));
-        customer2.addAdress(new Address("Tadeusza", "Kraków", "04-333", "PL"));
-        customer2.addAdress(new Address("Mariusza", "Berlin", "09-222", "DE"));
-        customer3.addAdress(new Address("Antoniego", "Kraków", "14-603", "PL"));
-        customer4.addAdress(new Address("Gerard", "Kraków", "32885", "PL"));
+        customer1.addAddress(new Address("Aleje Jerozolimskie", "Berlin", "08-200", "DE"));
+        customer2.addAddress(new Address("Tadeusza", "Kraków", "04-333", "PL"));
+        customer2.addAddress(new Address("Mariusza", "Berlin", "09-222", "DE"));
+        customer3.addAddress(new Address("Antoniego", "Kraków", "14-603", "PL"));
+        customer4.addAddress(new Address("Gerard", "Kraków", "32885", "PL"));
 
         repository.saveAllAndFlush(List.of(customer1, customer2, customer3, customer4));
 
@@ -251,10 +250,10 @@ class CustomerRepositoryTest {
         final var customer3 = new Company("klekot@WP.pl", "Bocian Pożyczki", "97045295653");
         final var customer4 = new Company("rolex@wp.pl", "Uhr GmbH", "98771163654");
 
-        customer1.addAdress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "PL"));
-        customer2.addAdress(new Address("Tadeusza", "Wawa", "08-333", "PL"));
-        customer3.addAdress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
-        customer4.addAdress(new Address("Gerard", "Hannover", "08885", "DE"));
+        customer1.addAddress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "PL"));
+        customer2.addAddress(new Address("Tadeusza", "Wawa", "08-333", "PL"));
+        customer3.addAddress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
+        customer4.addAddress(new Address("Gerard", "Hannover", "08885", "DE"));
 
         repository.saveAllAndFlush(List.of(customer1, customer2, customer3, customer4));
 
@@ -299,10 +298,10 @@ class CustomerRepositoryTest {
         final var customer3 = new Company("klekot@WP.pl", "Bocian Pożyczki", "97045295653");
         final var customer4 = new Company("rolex@wp.pl", "Uhr GmbH", "98771163654");
 
-        customer1.addAdress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "DE"));
-        customer2.addAdress(new Address("Tadeusza", "Warszawa", "08-333", "DE"));
-        customer3.addAdress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
-        customer4.addAdress(new Address("Gerard", "Hannover", "08885", "DE"));
+        customer1.addAddress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "DE"));
+        customer2.addAddress(new Address("Tadeusza", "Warszawa", "08-333", "DE"));
+        customer3.addAddress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
+        customer4.addAddress(new Address("Gerard", "Hannover", "08885", "DE"));
 
         repository.saveAllAndFlush(List.of(customer1, customer2, customer3, customer4));
 
@@ -329,10 +328,10 @@ class CustomerRepositoryTest {
         final var customer3 = new Company("klekot@WP.pl", "Bocian Pożyczki", "97045295653");
         final var customer4 = new Company("rolex@wp.pl", "Uhr GmbH", "98771163654");
 
-        customer1.addAdress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "DE"));
-        customer2.addAdress(new Address("Tadeusza", "Warszawa", "08-333", "DE"));
-        customer3.addAdress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
-        customer4.addAdress(new Address("Gerard", "Hannover", "08885", "DE"));
+        customer1.addAddress(new Address("Aleje Jerozolimskie", "Warszawa", "08-200", "DE"));
+        customer2.addAddress(new Address("Tadeusza", "Warszawa", "08-333", "DE"));
+        customer3.addAddress(new Address("Antoniego", "Wrocław", "14-603", "PL"));
+        customer4.addAddress(new Address("Gerard", "Hannover", "08885", "DE"));
 
         repository.saveAllAndFlush(List.of(customer1, customer2, customer3, customer4));
 

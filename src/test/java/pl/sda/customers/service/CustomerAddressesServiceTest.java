@@ -25,7 +25,7 @@ class CustomerAddressesServiceTest {
     @Autowired
     private CustomerRepository repository;
 
-    @MockBean //bean wydmuszka zastępujący inny bean w naszym wypadku który nie używa usług zewnętrznych
+    @MockBean //mockbean to wydmuszka zastępujący inny bean w naszym wypadku, żeby nie używa usług zewnętrznych
     private ReverseGeocoding reverseGeocoding;
 
     @Test
@@ -35,9 +35,9 @@ class CustomerAddressesServiceTest {
         repository.save(customer);
         final var address = new Address("str", "Warszawa", "81-200", "PL");
         when(reverseGeocoding
-                .reverse(anyDouble(), anyDouble()))
+                .reverse(anyDouble(), anyDouble())) //dla jakiechkolwiek double zwróć adres
                 .thenReturn(address); // otrzymaliśmy adres wydmuszkowy, jakiekolwiek parametry przy reverseGeocoding podamy to zwróci nam adres, uniezależniamy reverseGeocoding od usług zewnętrzych
-        final var form = new AddAddressFrom(customer.getId(), 52.14345, 20.58483);
+        final var form = new AddAddressFrom(customer.getId(), 52.242799, 20.979061);
 
 
         //When

@@ -39,6 +39,11 @@ public class Person extends Customer {
     }
 
     @Override
+    public String getName() { // metoda potrzebna do CustomerQuery
+        return firstName + " " + lastName;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
