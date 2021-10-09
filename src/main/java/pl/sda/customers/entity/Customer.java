@@ -1,6 +1,7 @@
 package pl.sda.customers.entity;
 
 import lombok.*;
+import pl.sda.customers.service.dto.CustomerDetails;
 import pl.sda.customers.service.dto.CustomerView;
 
 import javax.persistence.*;
@@ -26,12 +27,16 @@ public abstract class Customer {
     private UUID id;
     private String email;
 
-    @OneToMany (cascade = CascadeType.ALL) // cascade oznacza ze nowe encje niezapisane jeszcze w db zapisuje do bazy danych, u nas brak adresów u klienta i dodajemy je w trakcie dodawania do db
-    @JoinColumn (name = "customer_id")  // nowa kolumna w tabelce z adresami zawierająca klucze obce do łączenia z klientem, jak nie napiszemy to hibernate tworzy
+    @OneToMany(cascade = CascadeType.ALL)
+    // cascade oznacza ze nowe encje niezapisane jeszcze w db zapisuje do bazy danych, u nas brak adresów u klienta i dodajemy je w trakcie dodawania do db
+    @JoinColumn(name = "customer_id")
+    // nowa kolumna w tabelce z adresami zawierająca klucze obce do łączenia z klientem, jak nie napiszemy to hibernate tworzy
     private List<Address> addresses;    // domyślnie tabelę pośrednią zbędną w tym przypadku
 
-    @Column(name = "customer_type", insertable = false, updatable = false) // to pole jest tylko do odczytu poprzez insertable i updatable na false
-    @Enumerated(EnumType.STRING) // ważne aby w bazie danych ten enum oczytywany był jako string, w innym przypadku byłoby zapisane cyframi
+    @Column(name = "customer_type", insertable = false, updatable = false)
+    // to pole jest tylko do odczytu poprzez insertable i updatable na false
+    @Enumerated(EnumType.STRING)
+    // ważne aby w bazie danych ten enum oczytywany był jako string, w innym przypadku byłoby zapisane cyframi
     private CustomerType customerType;
 
     protected Customer(@NonNull String email) {
@@ -41,14 +46,22 @@ public abstract class Customer {
     }// podobnie jak w annotacji @NoArgsConstructor
 
     public void addAddress(Address address) {
-        if(address != null && !addresses.contains(address)){
+        if (address != null && !addresses.contains(address)) {
             addresses.add(address);
         }
     }
 
     public abstract String getName();
 
+    public abstract CustomerDetails mapToDetails();
 
+
+    public CustomerView toView() {
+        return new CustomerView(getId(),
+                getName(), // w Company nie musimy tworzyć tej metody ponieważ mamy tam name i tworzy nam z tego getter czyli getName, potrzebne tylko w Person
+                getEmail(),
+                getCustomerType());
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -62,6 +75,5 @@ public abstract class Customer {
     public int hashCode() {
         return Objects.hash(id, email);
     }
-
-
 }
+

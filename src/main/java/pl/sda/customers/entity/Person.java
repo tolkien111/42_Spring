@@ -5,12 +5,17 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import pl.sda.customers.service.dto.CustomerDetails;
+import pl.sda.customers.service.dto.CustomerDetails.PersonCustomerDetails;
 import pl.sda.customers.service.dto.RegisterCompanyForm;
 import pl.sda.customers.service.dto.RegisterPersonForm;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import java.util.Objects;
+import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Entity
 @DiscriminatorValue("PERSON")
@@ -41,6 +46,12 @@ public class Person extends Customer {
     @Override
     public String getName() { // metoda potrzebna do CustomerQuery
         return firstName + " " + lastName;
+    }
+
+    @Override
+    public CustomerDetails mapToDetails() {
+        return new PersonCustomerDetails(getEmail(), firstName, lastName, pesel, getAddresses().stream()
+        .map(Address::toView).collect(toList()));
     }
 
     @Override

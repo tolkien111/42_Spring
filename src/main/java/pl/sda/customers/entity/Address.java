@@ -3,6 +3,7 @@ package pl.sda.customers.entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NonNull;
+import pl.sda.customers.service.dto.AddressView;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -31,5 +32,10 @@ public final class Address { //błąd inteliJ związany z prywatnym konstruktore
         this.city = city;
         this.zipCode = zipCode;
         this.countryCode = countryCode;
+    }
+
+
+    public AddressView toView() {
+        return new AddressView(id, street, city, zipCode, countryCode);
     }
 }

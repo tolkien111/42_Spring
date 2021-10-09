@@ -34,7 +34,7 @@ public class CustomersApplication {
         private final CustomerRepository repository;
 
 
-        // adnotacja @EventListener służąca do realizacji jakichś celów, startująca bezpośrednio po zbudowaniu kontekstu/odrazu po uruchomieniu aplikacji
+        // adnotacja @EventListener służąca do realizacji jakichś celów, startująca bezpośrednio po zbudowaniu kontentu/odrazu po uruchomieniu aplikacji
         // w naszym przypadku chcemy dodać klientów, aby dodać ich od razu do naszej bazy danych
         @EventListener
         @Transactional
